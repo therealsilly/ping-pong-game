@@ -15,13 +15,22 @@ class GameSprite(sprite.Sprite):
 
 class Player(GameSprite):
     def update_r(self):
-        pass
+        keys = key.get_pressed()
+        if keys[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_DOWN] and self.rect.y < S_HEIGHT- 150:
+            self.rect.y += self.speed
     def update_l(self):
-        pass
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_s] and self.rect.y < S_HEIGHT- 150:
+            self.rect.y += self.speed
 
 BACK = (38,38,38)
 S_WIDTH = 600
 S_HEIGHT = 500
+
 screen = display.set_mode((S_WIDTH, S_HEIGHT))
 screen.fill(BACK)
 
@@ -43,10 +52,14 @@ while game:
         if e.type == QUIT:
             game = False
 
-    if not finish:    
+    if not finish:
+        paddle1.update_l()
+        paddle2.update_r()
+
         window.fill(BACK)
         ball.reset()
         paddle1.reset()
         paddle2.reset()
 
     display.update()
+    clock.tick(FPS)
